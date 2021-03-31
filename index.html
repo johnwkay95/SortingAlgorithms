@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        :root {
+            --blue: rgb(62, 130, 255);
+        }
+
+        * {
+            margin: 0;
+        }
+
+        body {
+            background-color: #fffac7;
+            background-image: url("https://www.transparenttextures.com/patterns/notebook-dark.png");
+            /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+        }
+
+        nav {
+            height: 40px;
+            width: auto;
+            background-color: rgb(255, 197, 111);
+        }
+
+        #blocks {
+            width: fit-content;
+            margin: auto;
+        }
+
+        .block {
+            width: 5px;
+            background-color: var(--blue);
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <input id="blocksSlider" type="range" min="10" max="100" value="100" class="slider" id="myRange">
+        <select id="sortAlgorithm">
+            <option value="quick">Quick</option>
+            <option value="bubble">Bubble</option>
+        </select>
+        <button id="sortButton">Sort</button>
+        <p>Swaps: <span id="numberOfSwaps">0</span></p>
+        <p id="errorMessage"></p>
+    </nav>
+    <div id="blocks"></div>
+
+    <script src="Constants.js"></script>
+    <script src="SortingUtils.js"></script>
+    <script src="SortingController.js"></script>
+    <script src="BubbleSort.js"></script>
+    <script src="QuickSort.js"></script>
+    <script>
+        const sc = new SortingController(document.getElementById('blocks'))
+        sc.createBlocks()
+
+        document.getElementById('blocksSlider').onchange = (e) => {
+            sc.updateNumberOfBlocks(parseInt(e.target.value))
+        }
+
+        document.getElementById('sortButton').onclick = () => {
+            let running = sc.runSort(document.getElementById('sortAlgorithm').value)
+
+            if (!running) {
+                document.getElementById('errorMessage').innerHTML = 'Something went wrong!'
+            }
+        }
+    </script>
+</body>
+
+</html>
